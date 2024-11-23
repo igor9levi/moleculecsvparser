@@ -43,7 +43,7 @@ export const getTableColumns = (processedData: ProcessedData[]) => {
   if (processedData.length === 0) return [];
 
   return Object.keys(processedData[0]).map((key) => ({
-    title: key,
+    title: formatColumnTitle(key),
     dataIndex: key,
     key: key,
     sorter: (a: ProcessedData, b: ProcessedData) => {
@@ -54,7 +54,25 @@ export const getTableColumns = (processedData: ProcessedData[]) => {
         : String(valueA).localeCompare(String(valueB));
     },
     filterable: true,
+    align: typeof processedData[0][key] === 'number' ? 'right' : 'left',
+    width: key === 'compoundId' ? 120 : 'auto',
   }));
+};
+
+const formatColumnTitle = (key: string): string => {
+  // Format result columns
+  if (key.startsWith('result_')) {
+    const baseName = key.replace('result_', '');
+    if (key.endsWith('_avg')) return `${baseName} (Average)`;
+    if (key.endsWith('_min')) return `${baseName} (Min)`;
+    if (key.endsWith('_max')) return `${baseName} (Max)`;
+  }
+
+  // Format other columns
+  return key
+    .split(/(?=[A-Z])|_/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 };
 
 export const calculateStats = (processedData: ProcessedData[]): Stats => {

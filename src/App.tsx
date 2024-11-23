@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Upload, Table, Input, Card, Statistic, Row, Col } from 'antd';
+import {
+  Upload,
+  Table,
+  Input,
+  Card,
+  Statistic,
+  Row,
+  Col,
+  Typography,
+} from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import Papa from 'papaparse';
 
@@ -13,6 +22,8 @@ import {
 } from './utils';
 
 import 'antd/es/style/reset.css';
+
+const { Title } = Typography;
 
 function App() {
   const [processedData, setProcessedData] = useState<ProcessedData[]>([]);
@@ -51,10 +62,20 @@ function App() {
         onChange={(e) => setSearchText(e.target.value)}
       />
 
+      <div style={{ marginBottom: '16px' }}>
+        <Title level={4}>Compound Analysis Results</Title>
+        <p>
+          Showing {filteredData.length} compounds
+          {searchText && ` (filtered from ${processedData.length} total)`}
+        </p>
+      </div>
+
       <Table
         dataSource={filteredData}
         columns={getTableColumns(processedData)}
         scroll={{ x: true }}
+        bordered
+        title={() => 'Compound Data'}
       />
 
       <Row gutter={16} style={{ marginTop: '24px' }}>

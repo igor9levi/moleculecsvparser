@@ -12,9 +12,8 @@ import {
 import { InboxOutlined } from '@ant-design/icons';
 import Papa from 'papaparse';
 
+import { ProcessedData, RawData } from './types';
 import {
-  ProcessedData,
-  RawData,
   processCSV,
   getTableColumns,
   calculateStats,

@@ -26,17 +26,21 @@ export const processCSV = (data: RawData[]): ProcessedData[] => {
   });
 };
 
-const getColumnWidth = (key: string): number => {
+const getColumnWidth = (key: string, data: ProcessedData[]): number => {
   const title = formatColumnTitle(key);
-  // Calculate minimum width based on character count (assuming average char width)
-  const charWidth = 8; // pixels per character
-  const padding = 32; // pixels for padding and borders
-  const minWidth = Math.max(
-    title.length * charWidth + padding,
-    key === 'compoundId' ? 150 : 120
+  const content = data.map((item) => String(item[key]));
+
+  // Get max content length including header
+  const maxLength = Math.max(
+    title.length,
+    ...content.map((text) => String(text).length)
   );
 
-  return minWidth;
+  const charWidth = 10; // pixels per character
+  const padding = 32; // padding + borders
+  const minWidth = 160; // minimum column width
+
+  return Math.max(maxLength * charWidth + padding, minWidth);
 };
 
 export const getTableColumns = (
@@ -48,7 +52,7 @@ export const getTableColumns = (
     title: formatColumnTitle(key),
     dataIndex: key,
     key: key,
-    width: getColumnWidth(key),
+    width: getColumnWidth(key, processedData),
     ellipsis: true,
     sorter: (a: ProcessedData, b: ProcessedData): number => {
       const valueA = a[key];

@@ -90,12 +90,18 @@ function App() {
           backgroundColor: '#fff',
           borderRadius: '8px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          height: 'calc(100vh - 400px)',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         <Table
           dataSource={filteredData}
           columns={getTableColumns(processedData)}
-          scroll={{ x: 'max-content' }}
+          scroll={{
+            x: 'max-content',
+            y: 'calc(100vh - 520px)', // Adjusted to ensure pagination visibility
+          }}
           bordered
           sticky
           title={() => 'Compound Data'}
@@ -104,6 +110,15 @@ function App() {
             position: ['bottomCenter'],
             showSizeChanger: true,
             showTotal: (total) => `Total ${total} items`,
+            size: 'small',
+            style: {
+              margin: '16px 0',
+              position: 'sticky',
+              bottom: 0,
+              backgroundColor: '#fff',
+              paddingBottom: '8px',
+              zIndex: 1,
+            },
           }}
         />
       </div>

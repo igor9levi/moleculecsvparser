@@ -1,20 +1,6 @@
 import { groupBy, meanBy } from 'lodash';
-
-export interface RawData {
-  'Compound ID': string;
-  [key: string]: string | number;
-}
-
-export interface ProcessedData {
-  compoundId: string;
-  [key: string]: string | number;
-}
-
-export interface Stats {
-  uniqueCompounds: number;
-  avgMolWeight: number;
-  avgAtoms: number;
-}
+import type { ColumnsType } from 'antd/es/table';
+import { ProcessedData, RawData, Stats } from './types';
 
 export const processCSV = (data: RawData[]): ProcessedData[] => {
   const grouped = groupBy(data, 'Compound ID');
@@ -39,21 +25,27 @@ export const processCSV = (data: RawData[]): ProcessedData[] => {
   });
 };
 
-export const getTableColumns = (processedData: ProcessedData[]) => {
+export const getTableColumns = (
+  processedData: ProcessedData[]
+): ColumnsType<ProcessedData> => {
   if (processedData.length === 0) return [];
 
   return Object.keys(processedData[0]).map((key) => ({
     title: formatColumnTitle(key),
     dataIndex: key,
     key: key,
-    sorter: (a: ProcessedData, b: ProcessedData) => {
+    sorter: (a: ProcessedData, b: ProcessedData): number => {
       const valueA = a[key];
       const valueB = b[key];
       return typeof valueA === 'number'
         ? valueA - (valueB as number)
         : String(valueA).localeCompare(String(valueB));
     },
-    filterable: true,
+    filters: getColumnFilters(processedData, key),
+    onFilter: (
+      value: string | number | boolean,
+      record: ProcessedData
+    ): boolean => String(record[key]) === String(value),
     align: typeof processedData[0][key] === 'number' ? 'right' : 'left',
     width: key === 'compoundId' ? 120 : 'auto',
   }));
@@ -73,6 +65,19 @@ const formatColumnTitle = (key: string): string => {
     .split(/(?=[A-Z])|_/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+};
+
+const getColumnFilters = (
+  data: ProcessedData[],
+  key: string
+): { text: string; value: string }[] => {
+  const uniqueValues = Array.from(
+    new Set(data.map((item) => String(item[key])))
+  );
+  return uniqueValues.map((value) => ({
+    text: value,
+    value: value,
+  }));
 };
 
 export const calculateStats = (processedData: ProcessedData[]): Stats => {

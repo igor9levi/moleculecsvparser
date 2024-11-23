@@ -61,6 +61,7 @@ function App() {
         accept=".csv"
         beforeUpload={handleUpload}
         showUploadList={false}
+        data-test-id="front-file"
       >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />

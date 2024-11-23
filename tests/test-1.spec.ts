@@ -1,8 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-// import path from 'path';
-import path from 'node:path';
+import path, { dirname } from 'node:path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,12 +8,12 @@ const testDataPath = path.join(__dirname, './data.csv');
 
 test('test', async ({ page }) => {
   await page.goto(process.env.VITE_BASE_URL || 'http://localhost:5173/');
+  const fileChooserPromise = page.waitForEvent('filechooser');
   await page
     .getByRole('button', { name: 'inbox Click or drag CSV file' })
     .click();
-  await page
-    .getByRole('button', { name: 'inbox Click or drag CSV file' })
-    .setInputFiles(testDataPath);
+  const fileChooser = await fileChooserPromise;
+  await fileChooser.setFiles(testDataPath);
   await expect(page.locator('#root')).toContainText('Showing 1092 compounds');
   await expect(
     page

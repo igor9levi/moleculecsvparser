@@ -54,6 +54,7 @@ export const getTableColumns = (
     key: key,
     width: getColumnWidth(key, processedData),
     ellipsis: true,
+    fixed: key === 'compoundId' ? 'left' : undefined,
     sorter: (a: ProcessedData, b: ProcessedData): number => {
       const valueA = a[key];
       const valueB = b[key];

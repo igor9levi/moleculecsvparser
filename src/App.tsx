@@ -87,7 +87,7 @@ function App() {
 
       <div
         style={{
-          maxWidth: '100vw',
+          maxWidth: 'calc(100vw - 48px)',
           overflowX: 'auto',
           backgroundColor: '#fff',
           borderRadius: '8px',
@@ -102,7 +102,8 @@ function App() {
           columns={getTableColumns(processedData)}
           scroll={{
             x: 'max-content',
-            y: 'calc(100vh - 520px)', // Adjusted to ensure pagination visibility
+            y: 'calc(100vh - 520px)',
+            scrollToFirstRowOnChange: true,
           }}
           bordered
           sticky

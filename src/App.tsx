@@ -22,7 +22,7 @@ import {
 
 // import 'antd/es/style/reset.css';
 
-const { Title } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 // Add global style
 const bodyStyle = {
@@ -65,7 +65,9 @@ function App() {
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
-        <p className="ant-upload-text">Click or drag CSV file to upload</p>
+        <Paragraph className="ant-upload-text">
+          Click or drag CSV file to upload
+        </Paragraph>
       </Upload.Dragger>
 
       <Input.Search
@@ -77,10 +79,10 @@ function App() {
 
       <div style={{ marginBottom: '16px' }}>
         <Title level={4}>Compound Analysis Results</Title>
-        <p>
+        <Text>
           Showing {filteredData.length} compounds
           {searchText && ` (filtered from ${processedData.length} total)`}
-        </p>
+        </Text>
       </div>
 
       <div
@@ -104,7 +106,7 @@ function App() {
           }}
           bordered
           sticky
-          title={() => 'Compound Data'}
+          title={() => <Text strong>Compound Data</Text>}
           onChange={handleTableChange}
           pagination={{
             position: ['bottomCenter'],

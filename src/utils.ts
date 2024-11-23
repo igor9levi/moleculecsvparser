@@ -3,7 +3,7 @@ import type { ColumnsType } from 'antd/es/table';
 import { ProcessedData, RawData, Stats } from './types';
 
 export const processCSV = (data: RawData[]): ProcessedData[] => {
-  const grouped = groupBy(data, 'Compound ID');
+  const grouped: Record<string, RawData[]> = groupBy(data, 'Compound ID');
 
   return Object.entries(grouped).map(([compoundId, compounds]) => {
     const result: ProcessedData = { compoundId };

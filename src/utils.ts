@@ -106,8 +106,9 @@ const getColumnFilters = (
 export const calculateStats = (processedData: ProcessedData[]): Stats => {
   return {
     uniqueCompounds: processedData.length,
-    avgMolWeight: meanBy(processedData, 'molecular_weight') || 0,
-    avgAtoms: meanBy(processedData, 'num_atoms') || 0,
+    avgMolWeight:
+      meanBy(processedData, (item) => Number(item['Mol Weight'])) || 0,
+    avgAtoms: meanBy(processedData, (item) => Number(item['Num Atoms'])) || 0,
   };
 };
 

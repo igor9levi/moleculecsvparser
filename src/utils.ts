@@ -51,7 +51,7 @@ export const getTableColumns = (
   return Object.keys(processedData[0]).map((key) => ({
     title: formatColumnTitle(key),
     dataIndex: key,
-    key: key,
+    key,
     width: getColumnWidth(key, processedData),
     ellipsis: true,
     fixed: key === 'compoundId' ? 'left' : undefined,
@@ -70,7 +70,6 @@ export const getTableColumns = (
 };
 
 const formatColumnTitle = (key: string): string => {
-  // Format result columns with special handling
   if (key.startsWith('result_')) {
     const baseName = key
       .replace('result_', '')
@@ -83,7 +82,6 @@ const formatColumnTitle = (key: string): string => {
     if (key.endsWith('_max')) return `${baseName} (Max)`;
   }
 
-  // Format other columns: split by underscore and camelCase, capitalize each word
   return key
     .split(/(?=[A-Z])|_/)
     .filter((word) => word.length > 0)
@@ -100,7 +98,7 @@ const getColumnFilters = (
   );
   return uniqueValues.map((value) => ({
     text: value,
-    value: value,
+    value,
   }));
 };
 

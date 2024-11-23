@@ -1,4 +1,27 @@
-# React + TypeScript + Vite
+# Scientist - Compound Data Analyzer
+
+A React application for analyzing scientific compound data. Upload CSV files containing compound information and get instant analysis with sortable tables, filters, and statistical summaries.
+
+## Features
+
+- Drag & drop CSV file upload
+- Interactive data table with:
+  - Sorting by any column
+  - Column filters
+  - Fixed compound ID column
+  - Horizontal and vertical scrolling
+- Global search functionality
+- Statistical analysis dashboard
+- Automatic calculation of min/max/average values for result fields
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or later)
+- npm
+
+### Installation
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -22,7 +45,7 @@ export default tseslint.config({
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -31,7 +54,7 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from 'eslint-plugin-react';
 
 export default tseslint.config({
   // Set the react version
@@ -46,5 +69,5 @@ export default tseslint.config({
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,
   },
-})
+});
 ```

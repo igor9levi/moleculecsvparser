@@ -1,5 +1,6 @@
 import { groupBy, meanBy } from 'lodash';
 import type { ColumnsType } from 'antd/es/table';
+import type { Key } from 'react';
 import { ProcessedData, RawData, Stats } from './types';
 
 export const processCSV = (data: RawData[]): ProcessedData[] => {
@@ -42,10 +43,8 @@ export const getTableColumns = (
         : String(valueA).localeCompare(String(valueB));
     },
     filters: getColumnFilters(processedData, key),
-    onFilter: (
-      value: string | number | boolean,
-      record: ProcessedData
-    ): boolean => String(record[key]) === String(value),
+    onFilter: (value: Key | boolean, record: ProcessedData): boolean =>
+      String(record[key]) === String(value),
     align: typeof processedData[0][key] === 'number' ? 'right' : 'left',
     width: key === 'compoundId' ? 120 : 'auto',
   }));

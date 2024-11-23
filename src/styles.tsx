@@ -24,8 +24,7 @@ export const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  .ant-table-cell-content {
-    overflow: visible !important;
+  overflow: visible;
   }
 `;
 

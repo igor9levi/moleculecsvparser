@@ -21,6 +21,14 @@ A React application for analyzing scientific compound data. Upload CSV files con
 - Node.js (v18 or later)
 - npm
 
+### System Requirements
+
+- Node.js 18+
+- Operating Systems:
+  - Windows 10+ or Windows Server 2016+ or Windows Subsystem for Linux (WSL)
+  - macOS 13 Ventura or later
+  - Debian 12, Ubuntu 22.04, Ubuntu 24.04 (x86-64 and arm64)
+
 ### Installation
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

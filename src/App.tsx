@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   Upload,
   Table,
@@ -20,11 +20,12 @@ import {
   filterData,
 } from './utils';
 
-import 'antd/es/style/reset.css';
+// import 'antd/es/style/reset.css';
 
 const { Title } = Typography;
 
 function App() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [processedData, setProcessedData] = useState<ProcessedData[]>([]);
   const [searchText, setSearchText] = useState('');
 
@@ -33,16 +34,21 @@ function App() {
       header: true,
       complete: (results) => {
         setProcessedData(processCSV(results.data as RawData[]));
+        containerRef.current?.scrollIntoView({ behavior: 'smooth' });
       },
     });
     return false;
+  };
+
+  const handleTableChange = () => {
+    containerRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const filteredData = filterData(processedData, searchText);
   const stats = calculateStats(processedData);
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div ref={containerRef} style={{ padding: '24px' }}>
       <Title>Experiments</Title>
 
       <Upload.Dragger
@@ -77,6 +83,12 @@ function App() {
         scroll={{ x: true }}
         bordered
         title={() => 'Compound Data'}
+        onChange={handleTableChange}
+        pagination={{
+          position: ['bottomCenter'],
+          showSizeChanger: true,
+          showTotal: (total) => `Total ${total} items`,
+        }}
       />
 
       <Row gutter={16} style={{ marginTop: '24px' }}>

@@ -23,6 +23,10 @@ export const TableContainer = styled.div`
   height: calc(100vh - 400px);
   display: flex;
   flex-direction: column;
+
+  .ant-table-cell-content {
+    overflow: visible !important;
+  }
 `;
 
 export const StatsRow = styled.div`

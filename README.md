@@ -79,3 +79,33 @@ export default tseslint.config({
   },
 });
 ```
+
+### Running App
+
+To run Playwright end-to-end tests:
+
+1. Install dependancies
+
+   ```bash
+   npm install
+   ```
+
+2. Run app
+   ```bash
+   npm run dev
+   ```
+
+### Running Tests
+
+To run Playwright end-to-end tests:
+
+1. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+2. In a separate terminal, run the tests:
+   ```bash
+   npm run test:e2e
+   ```

@@ -26,6 +26,19 @@ export const processCSV = (data: RawData[]): ProcessedData[] => {
   });
 };
 
+const getColumnWidth = (key: string): number => {
+  const title = formatColumnTitle(key);
+  // Calculate minimum width based on character count (assuming average char width)
+  const charWidth = 8; // pixels per character
+  const padding = 32; // pixels for padding and borders
+  const minWidth = Math.max(
+    title.length * charWidth + padding,
+    key === 'compoundId' ? 150 : 120
+  );
+
+  return minWidth;
+};
+
 export const getTableColumns = (
   processedData: ProcessedData[]
 ): ColumnsType<ProcessedData> => {
@@ -35,6 +48,8 @@ export const getTableColumns = (
     title: formatColumnTitle(key),
     dataIndex: key,
     key: key,
+    width: getColumnWidth(key),
+    ellipsis: true,
     sorter: (a: ProcessedData, b: ProcessedData): number => {
       const valueA = a[key];
       const valueB = b[key];
@@ -46,23 +61,28 @@ export const getTableColumns = (
     onFilter: (value: Key | boolean, record: ProcessedData): boolean =>
       String(record[key]) === String(value),
     align: typeof processedData[0][key] === 'number' ? 'right' : 'left',
-    width: key === 'compoundId' ? 120 : 'auto',
   }));
 };
 
 const formatColumnTitle = (key: string): string => {
-  // Format result columns
+  // Format result columns with special handling
   if (key.startsWith('result_')) {
-    const baseName = key.replace('result_', '');
+    const baseName = key
+      .replace('result_', '')
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+
     if (key.endsWith('_avg')) return `${baseName} (Average)`;
     if (key.endsWith('_min')) return `${baseName} (Min)`;
     if (key.endsWith('_max')) return `${baseName} (Max)`;
   }
 
-  // Format other columns
+  // Format other columns: split by underscore and camelCase, capitalize each word
   return key
     .split(/(?=[A-Z])|_/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .filter((word) => word.length > 0)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 };
 

@@ -24,6 +24,12 @@ import {
 
 const { Title } = Typography;
 
+// Add global style
+const bodyStyle = {
+  backgroundColor: '#e6f4ff', // light blue color from Ant Design's palette
+  minHeight: '100vh',
+};
+
 function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [processedData, setProcessedData] = useState<ProcessedData[]>([]);
@@ -48,7 +54,7 @@ function App() {
   const stats = calculateStats(processedData);
 
   return (
-    <div ref={containerRef} style={{ padding: '24px' }}>
+    <div ref={containerRef} style={{ padding: '24px', ...bodyStyle }}>
       <Title>Experiments</Title>
 
       <Upload.Dragger
@@ -77,19 +83,30 @@ function App() {
         </p>
       </div>
 
-      <Table
-        dataSource={filteredData}
-        columns={getTableColumns(processedData)}
-        scroll={{ x: true }}
-        bordered
-        title={() => 'Compound Data'}
-        onChange={handleTableChange}
-        pagination={{
-          position: ['bottomCenter'],
-          showSizeChanger: true,
-          showTotal: (total) => `Total ${total} items`,
+      <div
+        style={{
+          maxWidth: '100vw',
+          overflowX: 'auto',
+          backgroundColor: '#fff',
+          borderRadius: '8px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
         }}
-      />
+      >
+        <Table
+          dataSource={filteredData}
+          columns={getTableColumns(processedData)}
+          scroll={{ x: 'max-content' }}
+          bordered
+          sticky
+          title={() => 'Compound Data'}
+          onChange={handleTableChange}
+          pagination={{
+            position: ['bottomCenter'],
+            showSizeChanger: true,
+            showTotal: (total) => `Total ${total} items`,
+          }}
+        />
+      </div>
 
       <Row gutter={16} style={{ marginTop: '24px' }}>
         <Col span={8}>

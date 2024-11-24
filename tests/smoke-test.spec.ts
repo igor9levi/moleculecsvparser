@@ -6,7 +6,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const testDataPath = path.join(__dirname, './data.csv');
 
-test('test', async ({ page }) => {
+test('should load CSV file and display correct compound statistics and support filtering', async ({
+  page,
+}) => {
   await page.goto(process.env.VITE_BASE_URL || 'http://localhost:5173/');
   const fileChooserPromise = page.waitForEvent('filechooser');
   await page

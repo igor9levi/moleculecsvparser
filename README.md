@@ -84,13 +84,16 @@ export default tseslint.config({
 
 To run Playwright end-to-end tests:
 
-1. Install dependancies
+1. Copy .env.local.example to .env.local
+   (more details on https://vite.dev/guide/env-and-mode)
+
+2. Install dependancies
 
    ```bash
    npm install
    ```
 
-2. Run app
+3. Run app
    ```bash
    npm run dev
    ```
